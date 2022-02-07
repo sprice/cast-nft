@@ -1,4 +1,4 @@
-import { Provider, chain, defaultChains } from 'wagmi'
+import { Provider, defaultChains } from 'wagmi'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 import { WalletLinkConnector } from 'wagmi/connectors/walletLink'

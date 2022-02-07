@@ -17,7 +17,7 @@ const handler = async (req, res) => {
 
   switch (method) {
     case 'GET':
-      const owner = req.session.siwe?.address
+      const owner = req?.session?.siwe?.address
       if (!owner) return returnError()
       const nfts = await aWeb3.alchemy.getNfts({
         owner,

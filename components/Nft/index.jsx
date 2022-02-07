@@ -1,13 +1,12 @@
-import React, { useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChromecast } from '@fortawesome/free-brands-svg-icons'
+import * as React from 'react'
+import { CastButton } from 'react-cast-sender'
 
 const displayAddress = (address) => {
   if (!address) return
   return `${address.substring(0, 5)}…${address.substring(38)}`
 }
 
-export default function Nft({ nft }) {
+export default function Nft({ nft, setOpen, setModalState }) {
   const [state, setState] = React.useState({
     contract: '',
     tokenId: '',
@@ -20,8 +19,8 @@ export default function Nft({ nft }) {
       attributes: [],
     },
     loading: false,
+    loaded: false,
   })
-  const [loaded, setLoaded] = useState(false)
 
   // Fetch nft when:
   React.useEffect(() => {
@@ -35,8 +34,8 @@ export default function Nft({ nft }) {
           ...x,
           ...json,
           loading: true,
+          loaded: true,
         }))
-        setLoaded(true)
       } catch (error) {
         console.log('error calling /api/me', error)
       } finally {
@@ -49,13 +48,13 @@ export default function Nft({ nft }) {
     // 2. window is focused (in case user logs out of another window)
     // window.addEventListener('focus', handler)
     // return () => window.removeEventListener('focus', handler)
-  }, [loaded])
+  }, [state.loaded])
 
   const isSupported = !!state?.media?.image.length
 
-  const castClick = () => {
-    console.log('casting title', state?.title)
-    console.log('casting image', state?.media?.image)
+  const onViewClick = () => {
+    setOpen(true)
+    setModalState(state)
   }
 
   return (
@@ -93,10 +92,9 @@ export default function Nft({ nft }) {
               <a
                 href="#"
                 className="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500"
-                onClick={castClick}
+                onClick={onViewClick}
               >
-                <FontAwesomeIcon icon={faChromecast} />
-                <span className="ml-3">Cast</span>
+                <span className="w-5">View</span>
               </a>
             </div>
           </div>
