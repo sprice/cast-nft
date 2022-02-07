@@ -7,12 +7,9 @@ import '../styles/globals.css'
 
 const chains = defaultChains
 
-const infuraId = process.env.INFURA_ID
+const infuraId = process.env.NEXT_PUBLIC_ALCHEMY_ID
 
-const connectors = ({ chainId }) => {
-  const rpcUrl =
-    chains.find((x) => x.id === chainId)?.rpcUrls?.[0] ??
-    chain.mainnet.rpcUrls[0]
+const connectors = () => {
   return [
     new InjectedConnector({
       chains,
@@ -26,8 +23,8 @@ const connectors = ({ chainId }) => {
     }),
     new WalletLinkConnector({
       options: {
-        appName: 'My wagmi app',
-        jsonRpcUrl: `${rpcUrl}/${infuraId}`,
+        appName: 'Porthole',
+        jsonRpcUrl: process.env.NEXT_PUBLIC_ALCHEMY_URL,
       },
     }),
   ]

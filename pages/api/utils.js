@@ -1,7 +1,7 @@
 export const ironOptions = () => {
   return {
     cookieName: 'siwe',
-    password: 'complex_password_at_least_32_characters_long',
+    password: process.env.SECRET,
     cookieOptions: {
       secure: process.env.NODE_ENV === 'production',
     },

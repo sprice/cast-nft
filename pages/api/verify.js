@@ -23,4 +23,4 @@ const handler = async (req, res) => {
   }
 }
 
-export default withIronSessionApiRoute(handler, ironOptions)
+export default withIronSessionApiRoute(handler, ironOptions())

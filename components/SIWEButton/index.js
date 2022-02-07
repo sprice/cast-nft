@@ -2,6 +2,11 @@ import React, { Fragment } from 'react'
 import { useAccount, useNetwork, useSignMessage } from 'wagmi'
 import { SiweMessage } from 'siwe'
 
+const displayAddress = (address) => {
+  if (!address) return
+  return `${address.substring(0, 5)}…${address.substring(38)}`
+}
+
 export default function SIWEButton() {
   const [
     { data: accountData, error: accountError, loading: accountLoading },
@@ -74,26 +79,35 @@ export default function SIWEButton() {
     return () => window.removeEventListener('focus', handler)
   }, [])
 
-  if (accountData) {
+  const shortAddress = displayAddress(state?.address)
+
+  if (state?.address) {
     return (
       <div>
         {/** Display connected wallet info here */}
         {/** ... */}
 
         {state.address ? (
-          <div>
-            <div>Signed in as {state.address}</div>
+          <div className="mt-3">
+            <span>Signed in as {shortAddress}</span>
             <button
+              type="button"
               onClick={async () => {
                 await fetch('/api/logout')
                 setState({})
               }}
+              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               Sign Out
             </button>
           </div>
         ) : (
-          <button disabled={state.loading} onClick={signIn}>
+          <button
+            type="button"
+            disabled={state.loading}
+            onClick={signIn}
+            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
             Sign-In with Ethereum
           </button>
         )}
