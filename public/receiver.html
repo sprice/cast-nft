@@ -1,4 +1,138 @@
-<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Web Receiver SDK -->
+    <script src="//www.gstatic.com/cast/sdk/libs/caf_receiver/v3/cast_receiver_framework.js"></script>
+    <!-- Cast Debug Logger -->
+    <script src="//www.gstatic.com/cast/sdk/libs/devtools/debug_layer/caf_receiver_logger.js"></script>
+    <style type="text/css">
+      video::-webkit-media-controls-panel {
+        display: none !important;
+        opacity: 1 !important;
+      }
+    </style>
+  </head>
+  <body>
+    <cast-media-player></cast-media-player>
+    <script>
+      const castDebugLogger = cast.debug.CastDebugLogger.getInstance()
+      const context = cast.framework.CastReceiverContext.getInstance()
+      const player = context.getPlayerManager()
+
+      //   const playerData = {}
+      //   const playerDataBinder = new cast.framework.ui.PlayerDataBinder(
+      //     playerData,
+      //   )
+
+      //   // Update ui according to player state
+      //   playerDataBinder.addEventListener(
+      //     cast.framework.ui.PlayerDataEventType.STATE_CHANGED,
+      //     (e) => {
+      //       switch (e.value) {
+      //         case cast.framework.ui.State.LAUNCHING:
+      //         case cast.framework.ui.State.IDLE:
+      //           break
+      //         case cast.framework.ui.State.LOADING:
+      //           break
+      //         case cast.framework.ui.State.BUFFERING:
+      //           break
+      //         case cast.framework.ui.State.PAUSED:
+      //           document.getElementsByTagName('video')[0].controls = false
+      //           break
+      //         case cast.framework.ui.State.PLAYING:
+      //           break
+      //       }
+      //     },
+      //   )
+
+      //   context.addEventListener(cast.framework.system.EventType.READY, () => {
+      //     if (!castDebugLogger.debugOverlayElement_) {
+      //       // Enable debug logger and show a 'DEBUG MODE' overlay at top left corner.
+      //       castDebugLogger.setEnabled(true)
+      //       // Show debug overlay
+      //       castDebugLogger.showDebugLogs(true)
+      //       // Clear log messages on debug overlay
+      //       castDebugLogger.clearDebugLogs()
+      //     }
+      //   })
+
+      //   context.addEventListener(
+      //     cast.framework.system.EventType.SENDER_CONNECTED,
+      //     () => {
+      //       const foo = 'foo'
+      //       castDebugLogger.error('state', foo)
+      //       castDebugLogger.warn('state', foo)
+      //       castDebugLogger.info('state', foo)
+      //       castDebugLogger.debug('state', foo)
+      //     },
+      //   )
+
+      //   castDebugLogger.loggerLevelByEvents = {
+      //     // 'cast.framework.events.category.CORE': cast.framework.LoggerLevel.INFO,
+      //     // 'cast.framework.events.EventType.MEDIA_STATUS':
+      //     //   cast.framework.LoggerLevel.DEBUG,
+      //   }
+
+      player.addEventListener(cast.framework.events.EventType.PLAYING, () => {
+        const state = player.getPlayerState()
+        if (state === 'PLAYING') {
+          player.pause()
+        }
+      })
+
+      //   //FUNCTIONS FOR SETTING THE UI
+      //   /**
+      //    *
+      //    * @param {String} doThis Sets the pause button UI (invisible/visible)
+      //    */
+      //   function pauseButtonUI(doThis) {
+      //     document.getElementById('pause-Button').style.visibility = doThis
+      //   }
+
+      //   /**
+      //    *
+      //    * @param {String} doThis Sets the splash image button UI (invisible/visible)
+      //    */
+      //   function loadingImageUI(doThis) {
+      //     document.getElementById('loading-Image').style.visibility = doThis
+      //   }
+
+      //   /**
+      //    *
+      //    * @param {String} doThis- Sets the buffer image button UI (invisible/visible)
+      //    */
+      //   function bufferImageUI(doThis) {
+      //     document.getElementById('buffer-Image').style.visibility = doThis
+      //   }
+
+      //   /**
+      //    *
+      //    * @param {String} doThis- Sets the watermark image button UI (invisible/visible)
+      //    */
+      //   function watermarkImageUI(doThis) {
+      //     document.getElementById('watermark').style.visibility = doThis
+      //   }
+
+      //   function titleUI(doThis) {
+      //     document.getElementById('title-media').style.visibility = doThis
+      //     document.getElementById('title-media').innerHTML = metadata.title
+      //   }
+
+      //   /**
+      //    *
+      //    * @param {String} doThis- Sets the progress bar image button UI (invisible/visible)
+      //    */
+      //   function progressBarUI(doThis) {
+      //     document.getElementById('progress').style.visibility = doThis
+      //     document.getElementById('currentTime').style.visibility = doThis
+      //     document.getElementById('durationTime').style.visibility = doThis
+      //   }
+
+      context.start()
+    </script>
+  </body>
+</html>
+
+<!-- <!DOCTYPE html>
 <html>
   <head>
     <title>URL Cast Receiver</title>
@@ -56,4 +190,4 @@
       }
     </script>
   </body>
-</html>
+</html> -->

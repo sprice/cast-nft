@@ -25,33 +25,53 @@ export default function NftModal({ open, setOpen, state }) {
   const isMounted = useIsMounted()
 
   const { initialized, connected, deviceName } = useCast()
-  const { loadMedia, isMediaLoaded } = useCastPlayer()
+  const {
+    loadMedia,
+    currentTime,
+    duration,
+    isPaused,
+    isMediaLoaded,
+    togglePlay,
+    seek,
+    isMuted,
+    tracks,
+    editTracks,
+    thumbnail,
+    title,
+    setVolume,
+    toggleMute,
+  } = useCastPlayer()
 
   // @TODO: handle unmount (promise timeout)
   React.useEffect(() => {
     const handler = async () => {
       if (connected) {
-        const imageUrl = state?.media?.image
-        const castSession = window.cast.framework.CastContext.getInstance().getCurrentSession()
-        console.log('castSession', castSession)
-        const namespace = 'urn:x-cast:com.url.cast'
-        const msg = {
-          type: 'loc',
-          url: 'https://sp.ngrok.io/viewer.html',
-        }
-        castSession.sendMessage(
-          namespace,
-          msg,
-          function () {
-            console.log('Message sent: ', msg)
-            notify('Message sent: ' + JSON.stringify(msg))
-          },
-          function () {
-            console.log('error sending message')
-          },
-        )
+        // const imageUrl = state?.media?.image
+        // const castSession = window.cast.framework.CastContext.getInstance().getCurrentSession()
+        // console.log('castSession', castSession)
+        // const namespace = 'urn:x-cast:com.url.cast'
+        // const msg = {
+        //   type: 'loc',
+        //   url: 'https://sp.ngrok.io/viewer.html',
+        // }
+        // castSession.sendMessage(
+        //   namespace,
+        //   msg,
+        //   function () {
+        //     console.log('Message sent: ', msg)
+        //     notify('Message sent: ' + JSON.stringify(msg))
+        //   },
+        //   function () {
+        //     console.log('error sending message')
+        //   },
+        // )
         // const fileExtension = imageUrl.split('.').pop()
         // const contentType = getContentType(fileExtension)
+        // const imageUrl = state?.media?.image
+        // const contentType = 'image/jpeg'
+
+        // const imageUrl = '/video/4k.mp4'
+        // const contentType = 'video/mp4'
         // const mediaInfo = new chrome.cast.media.MediaInfo(imageUrl, contentType)
         // mediaInfo.streamType = 'NONE'
         // const metadata = new chrome.cast.media.PhotoMediaMetadata()
@@ -61,10 +81,30 @@ export default function NftModal({ open, setOpen, state }) {
         // const request = new chrome.cast.media.LoadRequest(mediaInfo)
         // loadMedia(request)
         // console.log('mediaInfo', mediaInfo)
+
+        const mediaInfo = new window.chrome.cast.media.MediaInfo(
+          'https://sp.ngrok.io/video/4k.mp4',
+          'video/mp4',
+        )
+        const metadata = new window.chrome.cast.media.MovieMediaMetadata()
+        mediaInfo.metadata = metadata
+
+        const request = new window.chrome.cast.media.LoadRequest(mediaInfo)
+
+        console.log('testing')
+        loadMedia(request).then(() => {
+          // const interval = setInterval(() => {
+          //   console.log('isMediaLoaded', isMediaLoaded)
+          //   if (isMediaLoaded === true) {
+          //     console.log('media is loaded')
+          //     clearInterval(interval)
+          //   }
+          // }, 500)
+        })
       }
     }
     ;(async () => await handler())()
-  }, [connected, isMediaLoaded])
+  }, [connected])
 
   return (
     <Transition.Root show={open} as={Fragment}>
